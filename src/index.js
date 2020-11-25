@@ -8,12 +8,14 @@ import "jquery/dist/jquery.min.js";
 import "popper.js/dist/umd/popper.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux"; /** (*) */
 import { Provider } from "react-redux";
 import rootReducer from "./redux/reducers";
+import thunk from "redux-thunk"; /** (*) */
 
-const store = createStore(rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; /** (*) */
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk))); /** (*) , composeEnhancers+ applyMiddleware là 1 func  */
 
 
 
