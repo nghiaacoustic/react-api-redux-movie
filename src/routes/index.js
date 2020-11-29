@@ -5,6 +5,7 @@ import DetailMoviePage from "../containers/Hometemplate/DetailMovie";
 import HocPage from "./../containers/Hometemplate/HocPage";
 import DashBoardPage from "./../containers/AdminTemplate/DashboardPage";
 import AddUserPage from "./../containers/AdminTemplate/AddUserPage";
+// import AuthPage from "./../containers/AdminTemplate/AuthPage"
 
 const routesHome = [
     {

@@ -1,7 +1,10 @@
+// import { Button } from 'bootstrap';
 import React, { Component } from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
+import { actLogout } from "../../containers/AdminTemplate/AuthPage/modules/action"
 
-export default class NavbarAdmin extends Component {
+import { connect } from "react-redux"
+ class NavbarAdmin extends Component {
     render() {
         return (
             <div>
@@ -21,6 +24,9 @@ export default class NavbarAdmin extends Component {
                             <li className="nav-item">
                                 <NavLink activeClassName="active" className="nav-link" to="/add-user">Add User</NavLink>
                             </li>
+                            <li className="nav-item">
+                                <button className="btn btn-danger" onClick={()=>{this.props.fetchLogout(this.props.history)}}>Log out</button>
+                            </li> 
                         </ul>
                     </div>
                 </nav>
@@ -29,3 +35,16 @@ export default class NavbarAdmin extends Component {
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchLogout: (history) => {
+            dispatch(actLogout(history));
+        }
+    }
+}
+
+//custom lại connect để bao bọc bởi withRouter
+const ConnectedComponent = connect(null, mapDispatchToProps)(NavbarAdmin);
+
+export default withRouter(ConnectedComponent) ;

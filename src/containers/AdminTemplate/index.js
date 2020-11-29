@@ -1,28 +1,36 @@
-import { logDOM } from '@testing-library/react'
+// import { logDOM } from '@testing-library/react'
 import React from 'react'
-import {Route} from "react-router-dom"
+import { Redirect, Route } from "react-router-dom"
 import NavbarAdmin from "./../../components/NavbarAdmin"
 
 
-function LayoutAdmin (props) {
+function LayoutAdmin(props) {
     return (
         <div>
-            <NavbarAdmin/>
+            <NavbarAdmin />
             {props.children}
         </div>
     )
 }
-
-export default function AdminTemplate({Component, ...props}) {
+/** () thay thế = {} : có điều kiện để kiểm tra
+ * return
+ * 
+ */
+export default function AdminTemplate({ Component, ...props }) {
     return (
-        <Route 
+        <Route
             {...props}
-            render={(propsComponent)=>(
-                <LayoutAdmin>
-                    <Component {...propsComponent}/>
-                    {/* {console.log(propsComponent)} */}
-                </LayoutAdmin>
-            )}
+            render={(propsComponent) => {
+                if (localStorage.getItem("UserAdmin")) {
+                    return (
+                        <LayoutAdmin>
+                            <Component {...propsComponent} />
+                            {/* {console.log(propsComponent)} */}
+                        </LayoutAdmin>
+                    );
+                }
+                return <Redirect to="/auth" />
+            }}
         />
     )
 }

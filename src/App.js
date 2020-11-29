@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
+import React, { Component } from 'react';
 // import HomePage from "./containers/Hometemplate/HomePage";
 // import AboutPage from "./containers/Hometemplate/AboutPage";
 // import ListMoviePage from "./containers/Hometemplate/ListMoviePage";
@@ -8,16 +9,20 @@ import HomeTemplate from "./containers/Hometemplate"
 import AdminTemplate from "./containers/AdminTemplate"
 
 // Component
-import NavbarHome from "./components/navbarHome"
+// import NavbarHome from "./components/navbarHome"
 
 //routes
 import { routesHome, routeAdmin } from "./routes"
 
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import {Route, Switch, withRouter} from "react-router-dom"
+import AuthPage from './containers/AdminTemplate/AuthPage';
+// import { render } from '../node_modules/@testing-library/react/types/index';
 
-function App() {
+import { actTryLogin } from "./containers/AdminTemplate/AuthPage/modules/action"
+import { connect } from "react-redux"
+class App extends Component {
 
-  const showLayoutHome = (routes) => {
+  showLayoutHome = (routes) => {
     if (routes && routes.length > 0) {
       return routes.map((item, index) => {
         return <HomeTemplate
@@ -30,7 +35,7 @@ function App() {
     }
   }
 
-  const showLayoutAdmin = (routes) => {
+  showLayoutAdmin = (routes) => {
     if (routes && routes.length > 0) {
       return routes.map((item, index) => {
         return <AdminTemplate
@@ -43,27 +48,43 @@ function App() {
     }
   }
 
-  return (
-    <BrowserRouter>
-      {/* <NavbarHome /> */}
-      <Switch>
-        {/* Trang chủ - Localhost : 3000 - HomePage*/}
-        {/* <Route path="/" exact component={HomePage} /> */}
+  componentDidMount(){
+    // debugger;
+    this.props.fetchTryLogin(this.props.history)
+  }
 
-        {/* Trang chủ - Localhost : 3000/about - AboutPage*/}
-        {/* <Route path="/about" component={AboutPage} /> */}
+  render() {
+    return (
+        <Switch>
+          {/* Trang chủ - Localhost : 3000 - HomePage*/}
+          {/* <Route path="/" exact component={HomePage} /> */}
 
-        {/* Trang chủ - Localhost : 3000/list-movie - ListMoviePage*/}
-        {/* <Route path="/list-movie" component={ListMoviePage} /> */}
+          {/* Trang chủ - Localhost : 3000/about - AboutPage*/}
+          {/* <Route path="/about" component={AboutPage} /> */}
 
-        {showLayoutHome(routesHome)}
-        {showLayoutAdmin(routeAdmin)}
+          {/* Trang chủ - Localhost : 3000/list-movie - ListMoviePage*/}
+          {/* <Route path="/list-movie" component={ListMoviePage} /> */}
 
-        {/* PageNotFound - để cuối cùng*/}
-        <Route path="" component={PageNotFound} />
-      </Switch>
-    </BrowserRouter>
-  );
+          {this.showLayoutHome(routesHome)}
+          {this.showLayoutAdmin(routeAdmin)}
+
+          {/* AuthPage */}
+          <Route path="/auth" component={AuthPage} />
+
+          {/* PageNotFound - để cuối cùng*/}
+          <Route path="" component={PageNotFound} />
+        </Switch>
+    );
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchTryLogin: (history) => {
+      dispatch(actTryLogin(history))
+    }
+  }
 }
 
-export default App;
+const ConnectedComponent = connect(null, mapDispatchToProps)(App); // dùng withRouter để có được props History tại đây
+
+export default withRouter(ConnectedComponent);
