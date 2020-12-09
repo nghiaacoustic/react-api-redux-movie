@@ -1,52 +1,35 @@
 import React, { Component } from 'react'
 import Movie from "./../../../components/Movie"
-// import data from "./data.json"
-import Axios from "axios"
+import Loader from "./../../../components/Loader"
 
-export default class ListMoviePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            listMovie: [],
-            loading: false,
-        }
-    }
+import * as action from "./modules/action"
+import { connect } from "react-redux"
+
+class ListMoviePage extends Component {
 
     componentDidMount() {
-        this.setState({
-            loading: true,
-        });
-
-        Axios({
-            url: "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01",
-            method: "GET",
-        })
-            .then((result) => {
-                // console.log(result.data);
-                this.setState({
-                    listMovie: result.data,
-                    loading: false,
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        this.props.fetchListMovie();
     }
 
 
     renderHTML = () => {
-        const { listMovie } = this.state;
-        return listMovie.map((movie) => {
-            return <div key={movie.maPhim} className="col-md-3">
-                <Movie movie={movie} />
-            </div>
-        })
+        // const { listMovie } = this.state;
+        const { data } = this.props;
+        if (data && data.length > 0) {
+            return data.map((movie) => {
+                return (
+                    <div key={movie.maPhim} className="col-md-3">
+                        <Movie movie={movie} />
+                    </div>
+                )
+            })
+        }
     }
 
     render() {
-        const {loading} = this.state;
-        if(loading){
-            return <p>Loading ... </p>
+        const { loading } = this.props;
+        if (loading) {
+            return <Loader />;
         }
         return (
             <div>
@@ -60,3 +43,20 @@ export default class ListMoviePage extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        loading: state.listMovieReducer.loading,
+        data: state.listMovieReducer.data,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchListMovie: () => {
+            dispatch(action.actListMovieApi()) // gọi lại 3 trường hợp Axios bên file action
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListMoviePage);

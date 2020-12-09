@@ -1,0 +1,17 @@
+src file:
+    1. Components: chứa các html & css của từng thành phần (vd: section)
+            - styled: chỉ chơi với func (rfc) hoặc class return về html
+            - sử dụng biến const để styled cho element 
+            - export default func và return về biến const
+    Container: thường chứa các folder teamplate (vd: AdminTemplate, Hometemplate, ...)
+            - Mỗi template thường chứa các component nhỏ của template đó
+            - Component nhỏ chứa:
+                + index.js
+                + modules (folder)
+                    ++ action.js : chứa axios và biểu thị hành động, thường có (04)
+                        ++ Action API có axios , return dispatch trả về 3 trạng thái
+                        ++ ứng với mỗi trạng thái gồm : Loading , payload(data)
+                    ++ constant.js : const thường có 3 trạng thái: Request , Success , Failed
+                    ++ reducer.js 
+    redux/reducers:
+    routes:
