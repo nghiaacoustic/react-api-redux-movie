@@ -5,6 +5,7 @@ import DetailMoviePage from "../containers/Hometemplate/DetailMovie";
 import HocPage from "./../containers/Hometemplate/HocPage";
 import DashBoardPage from "./../containers/AdminTemplate/DashboardPage";
 import AddUserPage from "./../containers/AdminTemplate/AddUserPage";
+import HookPage from "./../containers/Hometemplate/HooksPage/index"
 // import AuthPage from "./../containers/AdminTemplate/AuthPage"
 
 const routesHome = [
@@ -33,7 +34,13 @@ const routesHome = [
         exact: false,
         path: "/HOC",
         component: HocPage
+    },
+    {
+        exact: false,
+        path: "/hooks",
+        component: HookPage
     }
+
 ];
 
 const routeAdmin = [
@@ -48,6 +55,8 @@ const routeAdmin = [
         path: "/add-user",
         component: AddUserPage,
     },
+
+
 ]
 
 export { routesHome, routeAdmin };

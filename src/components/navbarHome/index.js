@@ -27,6 +27,9 @@ export default class NavbarHome extends Component {
                             <li className="nav-item">
                                 <NavLink activeClassName="active" className="nav-link" to="/HOC">HOC</NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink activeClassName="active" className="nav-link" to="/hooks">Hook</NavLink>
+                            </li>
                         </ul>
                     </div>
                 </nav>
